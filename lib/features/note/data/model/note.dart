@@ -16,7 +16,7 @@ class NoteFields {
 
 class Note extends Equatable {
   const Note({
-    this.id = null,
+    this.id,
     required this.date,
     required this.starred,
     required this.title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+part 'animated_switchers/fade.dart';
 part 'animated_switchers/fade_scale.dart';
 
 const _kDuration = Duration(milliseconds: 200);

@@ -60,6 +60,9 @@ class _NoteListState extends State<NoteList>
       listener: (context, state) {
         _controller.forward();
       },
+      buildWhen: (previous, current) {
+        return previous.displayingNotes != current.displayingNotes;
+      },
       builder: (context, state) => FadeTransition(
         opacity: CurvedAnimation(
           parent: _controller,
@@ -68,13 +71,13 @@ class _NoteListState extends State<NoteList>
         child: ScrollConfiguration(
           behavior: RawScrollBehavior(),
           child: MasonryGridView.count(
-            itemCount: state.notes.length,
+            itemCount: state.displayingNotes.length,
             crossAxisCount: _grid ? 2 : 1,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
             padding: const EdgeInsets.all(8),
             itemBuilder: (context, index) => NoteTile(
-              note: state.notes[index],
+              note: state.displayingNotes[index],
               onChecked: (checked) {
                 // TODO: implement onChecked
                 throw UnimplementedError();

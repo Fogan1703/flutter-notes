@@ -6,6 +6,8 @@ class NoteListCubit extends Cubit<NoteListState> {
           const NoteListState(
             loading: true,
             notes: [],
+            displayingNotes: [],
+            searchQuery: null,
           ),
         ) {
     noteRepository.getAll().then(
@@ -13,10 +15,50 @@ class NoteListCubit extends Cubit<NoteListState> {
             state.copyWith(
               loading: false,
               notes: notes,
+              displayingNotes: notes,
             ),
           ),
         );
   }
 
   final NoteRepository noteRepository;
+
+  void startSearch() {
+    search('');
+  }
+
+  void stopSearch() {
+    emit(state.copyWith(
+      searchQuery: () => null,
+      displayingNotes: state.notes,
+    ));
+  }
+
+  void search(String query) {
+    query = query.trim().toLowerCase();
+
+    if (query.isEmpty) {
+      emit(state.copyWith(
+        searchQuery: () => query,
+        displayingNotes: state.notes,
+      ));
+      return;
+    }
+
+    emit(state.copyWith(
+      searchQuery: () => query,
+      displayingNotes: state.notes
+          .where(
+            (note) =>
+                note.title.toLowerCase().contains(query) ||
+                note.content
+                    .whereType<String>()
+                    .any((text) => text.toLowerCase().contains(query)) ||
+                note.content
+                    .whereType<CheckItem>()
+                    .any((note) => note.text.toLowerCase().contains(query)),
+          )
+          .toList(),
+    ));
+  }
 }

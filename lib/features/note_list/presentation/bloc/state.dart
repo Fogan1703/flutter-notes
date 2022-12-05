@@ -1,4 +1,4 @@
-part of '../note_list_cubit.dart';
+part of 'cubit.dart';
 
 class NoteListState extends Equatable {
   const NoteListState({

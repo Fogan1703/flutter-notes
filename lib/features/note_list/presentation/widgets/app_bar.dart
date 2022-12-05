@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_notes/common/presentation/widgets/animated_switchers.dart';
 
-import '../bloc/note_list_cubit.dart';
+import '../bloc/cubit.dart';
 
 class NoteListAppBar extends StatelessWidget with PreferredSizeWidget {
   const NoteListAppBar({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/common/data/repository/note_repository.dart';
 
-import '../data/repository/note_repository.dart';
-import 'bloc/note_list_cubit.dart';
+import 'bloc/cubit.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/note_list.dart';
 

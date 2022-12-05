@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'features/note/data/repository/note_repository.dart';
-import 'features/note/presentation/note_list_screen.dart';
+import 'common/data/repository/note_repository.dart';
+import 'features/note_list/presentation/screen.dart';
 
 class App extends StatelessWidget {
   const App({

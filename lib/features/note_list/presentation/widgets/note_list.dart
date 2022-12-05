@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/common/presentation/raw_scroll_behavior.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../bloc/note_list_cubit.dart';
+import '../bloc/cubit.dart';
 import 'note_tile.dart';
 
 class NoteList extends StatefulWidget {

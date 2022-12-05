@@ -1,4 +1,9 @@
-part of '../note_list_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/common/data/model/note.dart';
+import 'package:flutter_notes/common/data/repository/note_repository.dart';
+
+part 'state.dart';
 
 class NoteListCubit extends Cubit<NoteListState> {
   NoteListCubit({required this.noteRepository})

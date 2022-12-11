@@ -8,7 +8,7 @@ class NoteFields {
   NoteFields._();
 
   static const id = 'id';
-  static const date = 'date';
+  static const edited = 'edited';
   static const starred = 'starred';
   static const title = 'title';
   static const content = 'content';
@@ -17,24 +17,24 @@ class NoteFields {
 class Note extends Equatable {
   const Note({
     this.id,
-    required this.date,
+    required this.edited,
     required this.starred,
     required this.title,
     required this.content,
   });
 
   final int? id;
-  final DateTime date;
+  final DateTime edited;
   final bool starred;
   final String title;
   final List<Object> content;
 
   @override
-  List<Object?> get props => [id, date, starred, title, content];
+  List<Object?> get props => [id, edited, starred, title, content];
 
   factory Note.fromJson(Map<String, Object?> data) => Note(
         id: data[NoteFields.id] as int,
-        date: DateTime.fromMillisecondsSinceEpoch(data[NoteFields.date] as int),
+        edited: DateTime.fromMillisecondsSinceEpoch(data[NoteFields.edited] as int),
         starred: data[NoteFields.starred] == 1,
         title: data[NoteFields.title] as String,
         content: ContentParser.parseContent(data[NoteFields.content] as String),
@@ -42,7 +42,7 @@ class Note extends Equatable {
 
   Map<String, Object?> toJson() => {
         NoteFields.id: id,
-        NoteFields.date: date.millisecondsSinceEpoch,
+        NoteFields.edited: edited.millisecondsSinceEpoch,
         NoteFields.starred: starred ? 1 : 0,
         NoteFields.title: title,
         NoteFields.content: ContentParser.contentToString(content),

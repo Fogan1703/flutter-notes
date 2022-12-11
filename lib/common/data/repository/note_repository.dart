@@ -17,7 +17,7 @@ class NoteRepository {
         '''
         create table $tableName(
         ${NoteFields.id} integer primary key autoincrement,
-        ${NoteFields.date} integer,
+        ${NoteFields.edited} integer,
         ${NoteFields.starred} boolean,
         ${NoteFields.title} text,
         ${NoteFields.content} text
@@ -35,7 +35,7 @@ class NoteRepository {
   Future<List<Note>> getAll() => database
       .query(
         tableName,
-        orderBy: '${NoteFields.date} DESC',
+        orderBy: '${NoteFields.edited} DESC',
       )
       .then(
         (value) => value.map((data) => Note.fromJson(data)).toList(),

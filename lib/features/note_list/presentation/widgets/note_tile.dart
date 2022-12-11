@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notes/common/data/model/note.dart';
+import 'package:flutter_notes/features/note_editing/presentation/screen.dart';
 
 class NoteTile extends StatelessWidget {
   const NoteTile({
@@ -114,8 +115,8 @@ class NoteTile extends StatelessWidget {
           ),
         ),
       ),
-      openBuilder: (context, close) => Scaffold(
-        appBar: AppBar(),
+      openBuilder: (context, close) => NoteEditingScreen(
+        note: note,
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_notes/common/data/repository/note_repository.dart';
 
 import 'bloc/cubit.dart';
 import 'widgets/app_bar.dart';
+import 'widgets/floating_action_button.dart';
 import 'widgets/note_list.dart';
 
 class NoteListScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
               grid: _grid,
               gridChanged: (value) => setState(() => _grid = value),
             ),
+            floatingActionButton: const NoteListFloatingActionButton(),
             body: NoteList(grid: _grid),
           );
         },

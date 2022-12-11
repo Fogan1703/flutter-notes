@@ -1,4 +1,6 @@
 {
   "appName": "Notes",
-  "noteSearchFieldHint": "Search"
+  "noteSearchFieldHint": "Search",
+  "noteEditingMoreActionDelete": "Delete",
+  "noteEditingColorSelectorTitle": "Color"
 }

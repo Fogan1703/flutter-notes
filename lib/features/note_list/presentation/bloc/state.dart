@@ -13,6 +13,8 @@ class NoteListState extends Equatable {
   final String? searchQuery;
   final List<Note> displayingNotes;
 
+  bool get searching => searchQuery != null;
+
   @override
   List<Object?> get props => [loading, notes, searchQuery, displayingNotes];
 

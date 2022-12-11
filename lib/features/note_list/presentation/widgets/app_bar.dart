@@ -22,12 +22,14 @@ class NoteListAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    return BlocSelector<NoteListCubit, NoteListState, bool>(
-      selector: (state) => state.searchQuery != null,
-      builder: (context, searching) => AppBar(
+    return BlocBuilder<NoteListCubit, NoteListState>(
+      buildWhen: (previous, current) =>
+          previous.searching != current.searching ||
+          previous.notes.isEmpty != current.notes.isEmpty,
+      builder: (context, state) => AppBar(
         title: FadeAnimatedSwitcher(
           alignment: Alignment.centerLeft,
-          child: searching
+          child: state.searching
               ? TextField(
                   autofocus: true,
                   decoration: InputDecoration(
@@ -42,7 +44,7 @@ class NoteListAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
         actions: [
           FadeScaleAnimatedSwitcher(
-            child: searching
+            child: state.searching || state.notes.isEmpty
                 ? null
                 : IconButton(
                     key: ValueKey(grid),
@@ -53,15 +55,17 @@ class NoteListAppBar extends StatelessWidget with PreferredSizeWidget {
                   ),
           ),
           FadeScaleAnimatedSwitcher(
-            child: IconButton(
-              key: ValueKey(searching),
-              onPressed: () => searching
-                  ? context.read<NoteListCubit>().stopSearch()
-                  : context.read<NoteListCubit>().startSearch(),
-              icon: searching
-                  ? const Icon(Icons.close)
-                  : const Icon(Icons.search),
-            ),
+            child: state.notes.isEmpty
+                ? null
+                : IconButton(
+                    key: ValueKey(state.searching),
+                    onPressed: () => state.searching
+                        ? context.read<NoteListCubit>().stopSearch()
+                        : context.read<NoteListCubit>().startSearch(),
+                    icon: state.searching
+                        ? const Icon(Icons.close)
+                        : const Icon(Icons.search),
+                  ),
           ),
         ],
       ),

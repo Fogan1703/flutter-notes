@@ -2,5 +2,7 @@
   "appName": "Notes",
   "noteSearchFieldHint": "Search",
   "noteEditingMoreActionDelete": "Delete",
-  "noteEditingColorSelectorTitle": "Color"
+  "noteEditingColorSelectorTitle": "Color",
+  "createNoteTip": "Click here to create one",
+  "emptyNotesWidgetTitle": "Notes you add appear here"
 }

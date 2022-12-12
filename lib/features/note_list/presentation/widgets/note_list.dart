@@ -134,27 +134,25 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Expanded(
-              child: FadeTransition(
-                opacity: CurvedAnimation(
-                  parent: _listController,
-                  curve: Curves.easeIn,
-                ),
-                child: ScrollConfiguration(
-                  behavior: RawScrollBehavior(),
-                  child: MasonryGridView.count(
-                    itemCount: state.displayingNotes.length,
-                    crossAxisCount: _grid ? 2 : 1,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    padding: const EdgeInsets.all(8),
-                    itemBuilder: (context, index) => NoteTile(
-                      note: state.displayingNotes[index],
-                      onChecked: (checked) {
-                        // TODO: implement onChecked
-                        throw UnimplementedError();
-                      },
-                    ),
+            FadeTransition(
+              opacity: CurvedAnimation(
+                parent: _listController,
+                curve: Curves.easeIn,
+              ),
+              child: ScrollConfiguration(
+                behavior: RawScrollBehavior(),
+                child: MasonryGridView.count(
+                  itemCount: state.displayingNotes.length,
+                  crossAxisCount: _grid ? 2 : 1,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  padding: const EdgeInsets.all(8),
+                  itemBuilder: (context, index) => NoteTile(
+                    note: state.displayingNotes[index],
+                    onChecked: (checked) {
+                      // TODO: implement onChecked
+                      throw UnimplementedError();
+                    },
                   ),
                 ),
               ),

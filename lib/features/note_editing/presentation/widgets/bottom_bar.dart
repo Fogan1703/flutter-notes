@@ -15,7 +15,9 @@ class NoteEditingBottomBar extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          onPressed: () => throw UnimplementedError(), // TODO: adding a todo
+          onPressed: () => context
+              .read<NoteEditingBloc>()
+              .add(NoteEditingAddItemEvent(CheckItem.empty)),
           icon: const Icon(Icons.add_box_outlined),
         ),
         IconButton(

@@ -33,7 +33,7 @@ class Note extends Equatable {
         starred: false,
         color: null,
         title: '',
-        content: const [],
+        content: const [''],
       );
 
   final int? id;
@@ -45,6 +45,24 @@ class Note extends Equatable {
 
   @override
   List<Object?> get props => [id, edited, starred, color, title, content];
+
+  Note copyWith({
+    int? Function()? id,
+    DateTime? edited,
+    bool? starred,
+    NoteColor? Function()? color,
+    String? title,
+    List<Object>? content,
+  }) {
+    return Note(
+      id: id != null ? id() : this.id,
+      edited: edited ?? this.edited,
+      starred: starred ?? this.starred,
+      color: color != null ? color() : this.color,
+      title: title ?? this.title,
+      content: content ?? this.content,
+    );
+  }
 
   factory Note.fromJson(Map<String, Object?> data) => Note(
         id: data[NoteFields.id] as int,

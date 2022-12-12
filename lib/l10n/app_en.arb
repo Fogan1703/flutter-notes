@@ -4,5 +4,7 @@
   "noteEditingMoreActionDelete": "Delete",
   "noteEditingColorSelectorTitle": "Color",
   "createNoteTip": "Click here to create one",
-  "emptyNotesWidgetTitle": "Notes you add appear here"
+  "emptyNotesWidgetTitle": "Notes you add appear here",
+  "noteTitleHint": "Title",
+  "noteTextItemHint": "Note"
 }

@@ -5,6 +5,7 @@ import 'package:flutter_notes/common/data/model/note.dart';
 import 'bloc.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/bottom_bar.dart';
+import 'widgets/content.dart';
 
 class NoteEditingScreen extends StatelessWidget {
   const NoteEditingScreen({
@@ -22,7 +23,9 @@ class NoteEditingScreen extends StatelessWidget {
         appBar: const NoteEditingAppBar(),
         body: Column(
           children: const [
-            Spacer(),
+            Expanded(
+              child: NoteEditingContent(),
+            ),
             NoteEditingBottomBar(),
           ],
         ),

@@ -21,15 +21,16 @@ class NoteTile extends StatelessWidget {
 
     if (first is String) {
       return [
-        Text(
-          first,
-          maxLines: 5,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 12,
-            height: 4 / 3,
+        if (first.isNotEmpty)
+          Text(
+            first,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 12,
+              height: 4 / 3,
+            ),
           ),
-        ),
       ];
     }
 
@@ -41,8 +42,9 @@ class NoteTile extends StatelessWidget {
 
     if (first is CheckItem) {
       return note.content
-          .whereType<CheckItem>()
           .take(5)
+          .takeWhile((item) => item is CheckItem)
+          .cast<CheckItem>()
           .map(
             (item) => Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,10 +108,11 @@ class NoteTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                note.title,
-                style: theme.textTheme.titleSmall,
-              ),
+              if (note.title.isNotEmpty)
+                Text(
+                  note.title,
+                  style: theme.textTheme.titleSmall,
+                ),
               ..._getItems(),
             ],
           ),

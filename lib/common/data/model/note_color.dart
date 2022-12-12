@@ -14,6 +14,9 @@ class NoteColor extends Equatable {
         orElse: () => throw Exception('Unable to parse color $source'),
       );
 
+  static NoteColor? parseNullable(String? source) =>
+      source != null ? parse(source) : null;
+
   @override
   String toString() => name;
 

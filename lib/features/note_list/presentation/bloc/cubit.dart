@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/common/data/model/note.dart';
@@ -15,18 +17,21 @@ class NoteListCubit extends Cubit<NoteListState> {
             searchQuery: null,
           ),
         ) {
-    noteRepository.getAll().then(
-          (notes) => emit(
-            state.copyWith(
-              loading: false,
-              notes: notes,
-              displayingNotes: notes,
-            ),
-          ),
-        );
+    noteRepository.notesStream.listen(
+      (notes) => emit(
+        state.copyWith(
+          loading: false,
+          notes: notes,
+          displayingNotes: notes,
+        ),
+      ),
+    );
+    noteRepository.sendUpdatedData();
   }
 
   final NoteRepository noteRepository;
+
+  late final StreamSubscription _subscription;
 
   void startSearch() {
     search('');
@@ -65,5 +70,11 @@ class NoteListCubit extends Cubit<NoteListState> {
           )
           .toList(),
     ));
+  }
+
+  @override
+  Future<void> close() {
+    _subscription.cancel();
+    return super.close();
   }
 }

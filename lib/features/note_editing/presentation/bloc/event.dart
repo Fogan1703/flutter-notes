@@ -5,6 +5,8 @@ abstract class NoteEditingEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class NoteEditingSaveEvent extends NoteEditingEvent {}
+
 class NoteEditingTitleChangedEvent extends NoteEditingEvent {
   NoteEditingTitleChangedEvent(this.value);
 

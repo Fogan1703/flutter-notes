@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:sqflite/sqflite.dart';
 
 import '../model/note.dart';
@@ -7,7 +9,11 @@ class NoteRepository {
 
   static const tableName = 'notes';
 
+  Stream<List<Note>> get notesStream => _controller.stream;
+
   final Database database;
+
+  final _controller = StreamController<List<Note>>.broadcast();
 
   static Future<NoteRepository> open() async {
     final database = await openDatabase(
@@ -19,6 +25,7 @@ class NoteRepository {
         ${NoteFields.id} integer primary key autoincrement,
         ${NoteFields.edited} integer,
         ${NoteFields.starred} boolean,
+        ${NoteFields.color} integer,
         ${NoteFields.title} text,
         ${NoteFields.content} text
         )
@@ -49,5 +56,13 @@ class NoteRepository {
   Future<int> update(Note note) => database.update(
         tableName,
         note.toJson(),
+        where: '${NoteFields.id} = ?',
+        whereArgs: [note.id],
       );
+
+  Future<List<Note>> sendUpdatedData() async {
+    final data = await getAll();
+    _controller.add(data);
+    return data;
+  }
 }

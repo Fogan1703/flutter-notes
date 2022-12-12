@@ -69,7 +69,7 @@ class Note extends Equatable {
         edited:
             DateTime.fromMillisecondsSinceEpoch(data[NoteFields.edited] as int),
         starred: data[NoteFields.starred] == 1,
-        color: NoteColor.parse(data[NoteFields.color] as String),
+        color: NoteColor.parseNullable(data[NoteFields.color] as String?),
         title: data[NoteFields.title] as String,
         content: ContentParser.parseContent(data[NoteFields.content] as String),
       );
@@ -78,7 +78,7 @@ class Note extends Equatable {
         NoteFields.id: id,
         NoteFields.edited: edited.millisecondsSinceEpoch,
         NoteFields.starred: starred ? 1 : 0,
-        NoteFields.color: color.toString(),
+        NoteFields.color: color?.toString(),
         NoteFields.title: title,
         NoteFields.content: ContentParser.contentToString(content),
       };

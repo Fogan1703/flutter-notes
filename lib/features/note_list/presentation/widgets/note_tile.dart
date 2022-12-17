@@ -88,10 +88,11 @@ class NoteTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final color = note.color != null ? Color(note.color!.value) : null;
     return OpenContainer(
-      closedColor: theme.colorScheme.surface,
-      openColor: theme.scaffoldBackgroundColor,
-      middleColor: theme.scaffoldBackgroundColor,
+      closedColor: color ?? theme.colorScheme.surface,
+      openColor: color ?? theme.scaffoldBackgroundColor,
+      middleColor: color ?? theme.scaffoldBackgroundColor,
       closedElevation: 1,
       openElevation: 0,
       closedShape: const RoundedRectangleBorder(

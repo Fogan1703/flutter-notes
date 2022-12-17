@@ -7,6 +7,15 @@ abstract class NoteEditingEvent extends Equatable {
 
 class NoteEditingSaveEvent extends NoteEditingEvent {}
 
+class NoteEditingChangeColorEvent extends NoteEditingEvent {
+  NoteEditingChangeColorEvent(this.value);
+
+  final NoteColor? value;
+
+  @override
+  List<Object?> get props => [...super.props, value];
+}
+
 class NoteEditingEditEvent extends NoteEditingEvent {}
 
 class NoteEditingStopEditingEvent extends NoteEditingEvent {}

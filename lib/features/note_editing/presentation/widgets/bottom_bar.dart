@@ -51,7 +51,15 @@ class NoteEditingBottomBar extends StatelessWidget {
               child: state.editing
                   ? null
                   : IconButton(
-                      onPressed: () => const ColorsBottomSheet().show(context),
+                      onPressed: () => const ColorsBottomSheet()
+                          .show(context)
+                          .then(
+                            (value) => value != null
+                                ? context
+                                    .read<NoteEditingBloc>()
+                                    .add(NoteEditingChangeColorEvent(value()))
+                                : null,
+                          ),
                       icon: const Icon(Icons.color_lens_outlined),
                     ),
             ),

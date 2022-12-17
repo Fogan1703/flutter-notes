@@ -23,16 +23,26 @@ class NoteEditingScreen extends StatelessWidget {
         note: note,
         noteRepository: context.read<NoteRepository>(),
       ),
-      child: Scaffold(
-        appBar: const NoteEditingAppBar(),
-        body: Column(
-          children: const [
-            Expanded(
-              child: NoteEditingContent(),
+      child: Builder(
+        builder: (context) {
+          return BlocSelector<NoteEditingBloc, NoteEditingState, Color?>(
+            selector: (state) => state.note.color != null
+                ? Color(state.note.color!.value)
+                : null,
+            builder: (context, color) => Scaffold(
+              backgroundColor: color,
+              appBar: const NoteEditingAppBar(),
+              body: Column(
+                children: const [
+                  Expanded(
+                    child: NoteEditingContent(),
+                  ),
+                  NoteEditingBottomBar(),
+                ],
+              ),
             ),
-            NoteEditingBottomBar(),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -14,6 +14,10 @@ class NoteEditingBloc extends Bloc<NoteEditingEvent, NoteEditingState> {
       _save();
     });
 
+    on<NoteEditingChangeColorEvent>((event, emit) {
+      emit(state.copyWith(note: state.note.copyWith(color: () => event.value)));
+    });
+
     on<NoteEditingEditEvent>((event, emit) {
       emit(state.copyWith(editing: true));
     });

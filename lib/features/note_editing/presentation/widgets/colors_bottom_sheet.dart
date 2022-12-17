@@ -9,7 +9,8 @@ import '../bloc.dart';
 class ColorsBottomSheet extends StatelessWidget {
   const ColorsBottomSheet({Key? key}) : super(key: key);
 
-  Future<void> show(BuildContext context) => showModalBottomSheet(
+  Future<NoteColor? Function()?> show(BuildContext context) =>
+      showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -55,8 +56,7 @@ class ColorsBottomSheet extends StatelessWidget {
                   final selected = color == selectedColor;
 
                   return GestureDetector(
-                    // TODO: coloring
-                    onTap: () => throw UnimplementedError(),
+                    onTap: () => Navigator.of(context).pop(() => color),
                     child: SizedBox.square(
                       dimension: 40,
                       child: DecoratedBox(

@@ -7,6 +7,20 @@ abstract class NoteEditingEvent extends Equatable {
 
 class NoteEditingSaveEvent extends NoteEditingEvent {}
 
+class NoteEditingEditEvent extends NoteEditingEvent {}
+
+class NoteEditingStopEditingEvent extends NoteEditingEvent {}
+
+class NoteEditingOnReorderEvent extends NoteEditingEvent {
+  NoteEditingOnReorderEvent(this.oldIndex, this.newIndex);
+
+  final int oldIndex;
+  final int newIndex;
+
+  @override
+  List<Object?> get props => [...super.props, oldIndex, newIndex];
+}
+
 class NoteEditingTitleChangedEvent extends NoteEditingEvent {
   NoteEditingTitleChangedEvent(this.value);
 

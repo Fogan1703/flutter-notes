@@ -28,8 +28,8 @@ class ColorsBottomSheet extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return BlocSelector<NoteEditingBloc, Note, NoteColor?>(
-      selector: (state) => state.color,
+    return BlocSelector<NoteEditingBloc, NoteEditingState, NoteColor?>(
+      selector: (state) => state.note.color,
       builder: (context, selectedColor) => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

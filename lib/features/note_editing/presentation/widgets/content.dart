@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/common/data/model/note.dart';
 import 'package:flutter_notes/common/presentation/raw_scroll_behavior.dart';
+import 'package:flutter_notes/common/presentation/widgets/animated_switchers.dart';
 
 import '../bloc.dart';
 
@@ -14,16 +15,15 @@ class NoteEditingContent extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return BlocBuilder<NoteEditingBloc, Note>(
-      builder: (context, note) {
-        return ScrollConfiguration(
-          behavior: RawScrollBehavior(),
-          child: ListView(
-            padding: const EdgeInsets.all(16),
+    return BlocBuilder<NoteEditingBloc, NoteEditingState>(
+      builder: (context, state) => ScrollConfiguration(
+        behavior: RawScrollBehavior(),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
             children: [
               TextFormField(
-                key: const ValueKey(-1),
-                initialValue: note.title,
+                initialValue: state.note.title,
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 3,
@@ -36,17 +36,24 @@ class NoteEditingContent extends StatelessWidget {
                     .read<NoteEditingBloc>()
                     .add(NoteEditingTitleChangedEvent(value)),
               ),
-              ...List<Widget>.generate(
-                note.content.length,
-                (index) {
-                  final item = note.content[index];
-                  switch (item.runtimeType) {
-                    case String:
-                      item as String;
-                      return TextFormField(
-                        key: ValueKey(index),
+              ReorderableListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                buildDefaultDragHandles: false,
+                onReorder: (oldIndex, newIndex) => context
+                    .read<NoteEditingBloc>()
+                    .add(NoteEditingOnReorderEvent(oldIndex, newIndex)),
+                children: List.generate(
+                  state.note.content.length,
+                  (index) {
+                    Widget child;
+                    final item = state.note.content[index];
+
+                    if (item is String) {
+                      child = TextFormField(
                         initialValue: item,
                         keyboardType: TextInputType.multiline,
+                        maxLines: null,
                         style: theme.textTheme.bodyMedium,
                         decoration: InputDecoration(
                           hintText: localizations.noteTextItemHint,
@@ -59,10 +66,8 @@ class NoteEditingContent extends StatelessWidget {
                               value,
                             )),
                       );
-                    case CheckItem:
-                      item as CheckItem;
-                      return Row(
-                        key: ValueKey(index),
+                    } else if (item is CheckItem) {
+                      child = Row(
                         children: [
                           SizedBox.square(
                             dimension: 24,
@@ -88,6 +93,7 @@ class NoteEditingContent extends StatelessWidget {
                               key: ValueKey(index),
                               initialValue: item.text,
                               keyboardType: TextInputType.multiline,
+                              maxLines: null,
                               style: theme.textTheme.bodyMedium,
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -102,17 +108,61 @@ class NoteEditingContent extends StatelessWidget {
                           ),
                         ],
                       );
-                    default:
+                    } else {
                       throw Exception(
                         'Unknown note content type: ${item.runtimeType}',
                       );
-                  }
-                },
+                    }
+
+                    child = Stack(
+                      key: ValueKey(item),
+                      children: [
+                        child,
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: FadeAnimatedSwitcher(
+                            child: state.editing
+                                ? DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          theme.scaffoldBackgroundColor
+                                              .withOpacity(0),
+                                          theme.scaffoldBackgroundColor,
+                                        ],
+                                        stops: const [0, 0.2],
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(width: 24),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.close),
+                                        ),
+                                        ReorderableDragStartListener(
+                                          index: index,
+                                          child: const Icon(Icons.reorder),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ],
+                    );
+
+                    return child;
+                  },
+                ),
               ),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

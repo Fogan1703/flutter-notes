@@ -5,3 +5,4 @@ import 'package:flutter_notes/common/data/repository/note_repository.dart';
 
 part 'bloc/bloc.dart';
 part 'bloc/event.dart';
+part 'bloc/state.dart';

@@ -1,9 +1,12 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../bloc.dart';
+
 // TODO: implement other items
 
-enum NoteEditingMoreAction { delete }
+enum NoteEditingMoreAction { delete, edit }
 
 class NoteEditingMoreButton extends StatelessWidget {
   const NoteEditingMoreButton({Key? key}) : super(key: key);
@@ -18,6 +21,9 @@ class NoteEditingMoreButton extends StatelessWidget {
           case NoteEditingMoreAction.delete:
             // TODO: handle this case
             break;
+          case NoteEditingMoreAction.edit:
+            context.read<NoteEditingBloc>().add(NoteEditingEditEvent());
+            break;
         }
       },
       itemBuilder: (context) => [
@@ -25,6 +31,11 @@ class NoteEditingMoreButton extends StatelessWidget {
           action: NoteEditingMoreAction.delete,
           icon: const Icon(Icons.delete),
           title: Text(localizations.noteEditingMoreActionDelete),
+        ),
+        NoteEditingMoreItem(
+          action: NoteEditingMoreAction.edit,
+          icon: const Icon(Icons.edit),
+          title: Text(localizations.noteEditingMoreActionEdit),
         ),
       ],
     );

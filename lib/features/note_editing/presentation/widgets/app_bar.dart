@@ -38,7 +38,7 @@ class NoteEditingAppBar extends StatelessWidget with PreferredSizeWidget {
                       onPressed: () => context
                           .read<NoteEditingBloc>()
                           .add(NoteEditingStopEditingEvent()),
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(Icons.done),
                     )
                   : IconButton(
                       key: ValueKey(state.editing),

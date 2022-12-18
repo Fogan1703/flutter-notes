@@ -149,9 +149,12 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
                   padding: const EdgeInsets.all(8),
                   itemBuilder: (context, index) => NoteTile(
                     note: state.displayingNotes[index],
-                    onChecked: (checked) {
-                      // TODO: implement onChecked
-                      throw UnimplementedError();
+                    onChecked: (index, value) {
+                      context.read<NoteListCubit>().onCheckItemChanged(
+                            state.displayingNotes[index],
+                            index,
+                            value,
+                          );
                     },
                   ),
                 ),

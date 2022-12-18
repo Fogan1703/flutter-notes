@@ -68,21 +68,25 @@ class NoteEditingContent extends StatelessWidget {
                       );
                     } else if (item is CheckItem) {
                       child = Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox.square(
-                            dimension: 24,
-                            child: Checkbox(
-                              value: item.checked,
-                              onChanged: (value) {
-                                if (value != null) {
-                                  context
-                                      .read<NoteEditingBloc>()
-                                      .add(NoteEditingItemChangedEvent(
-                                        index,
-                                        item.copyWith(checked: value),
-                                      ));
-                                }
-                              },
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: SizedBox.square(
+                              dimension: 24,
+                              child: Checkbox(
+                                value: item.checked,
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    context
+                                        .read<NoteEditingBloc>()
+                                        .add(NoteEditingItemChangedEvent(
+                                          index,
+                                          item.copyWith(checked: value),
+                                        ));
+                                  }
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -114,45 +118,50 @@ class NoteEditingContent extends StatelessWidget {
                       );
                     }
 
-                    child = Stack(
+                    final color = state.note.color != null
+                        ? Color(state.note.color!.value)
+                        : theme.scaffoldBackgroundColor;
+                    child = ColoredBox(
+                      color: color,
                       key: ValueKey(item),
-                      children: [
-                        child,
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: FadeAnimatedSwitcher(
-                            child: state.editing
-                                ? DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          theme.scaffoldBackgroundColor
-                                              .withOpacity(0),
-                                          theme.scaffoldBackgroundColor,
-                                        ],
-                                        stops: const [0, 0.2],
+                      child: Stack(
+                        children: [
+                          child,
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: FadeAnimatedSwitcher(
+                              child: state.editing
+                                  ? DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            color.withOpacity(0),
+                                            color,
+                                          ],
+                                          stops: const [0, 0.2],
+                                        ),
                                       ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(width: 24),
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.close),
-                                        ),
-                                        ReorderableDragStartListener(
-                                          index: index,
-                                          child: const Icon(Icons.reorder),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : null,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 24),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.close),
+                                          ),
+                                          ReorderableDragStartListener(
+                                            index: index,
+                                            child: const Icon(Icons.reorder),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : null,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
 
                     return child;

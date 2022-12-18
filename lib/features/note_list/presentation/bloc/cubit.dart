@@ -72,6 +72,13 @@ class NoteListCubit extends Cubit<NoteListState> {
     ));
   }
 
+  void onCheckItemChanged(Note note, int index, bool value) {
+    final content = List<Object>.from(note.content);
+    content[index] = (content[index] as CheckItem).copyWith(checked: value);
+    note = note.copyWith(content: content);
+    noteRepository.update(note);
+  }
+
   @override
   Future<void> close() {
     _subscription.cancel();

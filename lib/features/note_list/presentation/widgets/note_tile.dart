@@ -13,7 +13,7 @@ class NoteTile extends StatelessWidget {
   }) : super(key: key);
 
   final Note note;
-  final void Function(bool checked) onChecked;
+  final void Function(int index, bool value) onChecked;
 
   List<Widget> _getItems() {
     if (note.content.isEmpty) return [];
@@ -56,7 +56,9 @@ class NoteTile extends StatelessWidget {
                     child: Checkbox(
                       value: item.checked,
                       onChanged: (value) {
-                        if (value != null) onChecked(value);
+                        if (value != null) {
+                          onChecked(note.content.indexOf(item), value);
+                        }
                       },
                     ),
                   ),
